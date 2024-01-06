@@ -1,8 +1,12 @@
 function removeSavedTab(tabId, listItem, savedTabs) {
-  delete savedTabs[tabId];
-  chrome.storage.local.set({ savedTabs: savedTabs }, function () {
-    console.log("Tab removed:", tabId);
-    listItem.remove(); // Remove the tab entry from the list
+  listItem.classList.add("disappear-left");
+
+  listItem.addEventListener("animationend", function () {
+    delete savedTabs[tabId];
+    chrome.storage.local.set({ savedTabs: savedTabs }, function () {
+      console.log("Tab removed:", tabId);
+      listItem.remove(); // Remove the tab entry from the list
+    });
   });
 }
 
@@ -13,6 +17,7 @@ function updateSavedTabList(savedTabs) {
 
   for (const [tabId, tab] of Object.entries(savedTabs)) {
     const listItem = document.createElement("li");
+
     const contentDiv = document.createElement("div"); // Container for favicon and text
     const buttonDiv = document.createElement("div");
     listItem.className = "clickable-item";
@@ -25,7 +30,6 @@ function updateSavedTabList(savedTabs) {
       favicon.src = tab.favIconUrl;
       favicon.style.height = "16px";
       favicon.style.width = "16px";
-      favicon.style.marginRight = "8px";
       favicon.style.marginLeft = "8px";
       contentDiv.appendChild(favicon);
     }
@@ -34,29 +38,28 @@ function updateSavedTabList(savedTabs) {
       openTab(tab, listItem, savedTabs);
     });
 
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "delete-button"; // Add this line to set the class
+    const img = document.createElement("img");
+    img.src = "images/black-x.svg"; // Path to your SVG file
+    img.alt = "Delete"; // Alt text for accessibility
+    deleteButton.appendChild(img);
+    deleteButton.addEventListener("click", function (event) {
+      event.stopPropagation();
+      removeSavedTab(tabId, listItem, savedTabs);
+    });
+
     // Create a span for the text
     const textSpan = document.createElement("span");
     textSpan.appendChild(document.createTextNode(tab.title));
     contentDiv.appendChild(textSpan);
-    listItem.appendChild(contentDiv);
 
-    const openButton = document.createElement("button");
-    openButton.textContent = "Open";
-    openButton.addEventListener("click", function () {
-      openTab(tab, listItem, openButton, savedTabs);
-    });
-
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "X";
-    deleteButton.className = "delete-button"; // Add this line to set the class
-    deleteButton.addEventListener("click", function () {
-      removeSavedTab(tabId, listItem, savedTabs);
-    });
-
-    buttonDiv.appendChild(openButton);
     buttonDiv.appendChild(deleteButton);
+
+    listItem.appendChild(contentDiv);
     listItem.appendChild(buttonDiv);
     savedTabList.appendChild(listItem);
+    //setTimeout(() => listItem.classList.add("fade-in-move-up"), 0.5);
   }
 }
 
@@ -81,27 +84,22 @@ function updateTabsToSaveList(savedTabs) {
           favicon.src = tab.favIconUrl;
           favicon.style.height = "16px";
           favicon.style.width = "16px";
-          favicon.style.marginRight = "8px";
           favicon.style.marginLeft = "8px";
           contentDiv.appendChild(favicon);
         }
+
         listItem.addEventListener("click", function () {
           saveTab(tab, listItem, savedTabs);
         });
+
         // Create a span for the text
         const textSpan = document.createElement("span");
         textSpan.appendChild(document.createTextNode(tab.title));
         contentDiv.appendChild(textSpan);
+
         listItem.appendChild(contentDiv);
-
-        const saveButton = document.createElement("button");
-        saveButton.textContent = "";
-        saveButton.addEventListener("click", function () {
-          saveTab(tab, listItem, saveButton, savedTabs);
-        });
-
-        buttonDiv.appendChild(saveButton);
         listItem.appendChild(buttonDiv);
+
         tabsToSaveList.appendChild(listItem);
       }
     });
@@ -114,19 +112,28 @@ function isUrlSaved(savedTabs, url) {
 
 function saveTab(tab, listItem, savedTabs) {
   if (isUrlSaved(savedTabs, tab.url)) {
-    alert("This URL is already saved.");
+    alert("This tab is already saved.");
     return;
   }
-  savedTabs[tab.id] = tab;
-  chrome.storage.local.set({ savedTabs: savedTabs }, function () {
-    console.log("Tab saved:", tab);
-    updateTabLists();
-    chrome.tabs.remove(tab.id);
+
+  listItem.classList.add("slide-up-fade-out");
+
+  listItem.addEventListener("animationend", function onAnimationEnd() {
+    listItem.removeEventListener("animationend", onAnimationEnd);
+    // Now, remove the list item from the DOM and proceed with saving logic
+    listItem.remove();
+
+    savedTabs[tab.id] = tab;
+    chrome.storage.local.set({ savedTabs: savedTabs }, function () {
+      console.log("Tab saved:", tab);
+      updateTabLists();
+      chrome.tabs.remove(tab.id);
+    });
   });
 }
 
 function openTab(tab, listItem, savedTabs) {
-  chrome.tabs.create({ url: tab.url }, function () {
+  chrome.tabs.create({ url: tab.url, index: tab.index }, function () {
     delete savedTabs[tab.id];
     chrome.storage.local.set({ savedTabs: savedTabs }, function () {
       console.log("Tab opened");
