@@ -1,0 +1,80 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  width: 275px;
+  background-color: #202124;
+}
+
+h1 {
+  color: #ffffff;
+}
+
+h2 {
+  color: #e5e5e5;
+}
+
+#tabsToSaveList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-inline-start: 0px;
+}
+
+#tabsToSaveList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+  background: #3b3c40;
+  width: 100%;
+  height: 35px;
+  color: rgb(209, 209, 209);
+  margin-bottom: 8px;
+  border-radius: 5px 5px 5px 5px;
+  white-space: nowrap;
+  text-align: start;
+  cursor: pointer;
+}
+#tabsToSaveList li:hover {
+  background: #55565b;
+}
+
+.contentHolder {
+  width: 85%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+#tabsToSaveList li div span {
+  display: flex;
+  width: auto;
+  overflow: hidden;
+  align-items: flex-end;
+  height: 16px;
+}
+
+.buttonHolder {
+  width: 15%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.delete-button {
+  background-color: red;
+  margin-left: 10px;
+  /* Add more styling as needed */
+}

@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "inTab",
+  "version": "1.0",
+  "description": "Save and close tabs to reduce memory usage.",
+  "permissions": ["tabs", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/intab16.png",
+      "48": "images/intab48.png",
+      "128": "images/intab128.png"
+    }
+  },
+  "icons": {
+    "16": "images/intab16.png",
+    "48": "images/intab48.png",
+    "128": "images/intab128.png"
+  }
+}
