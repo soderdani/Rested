@@ -15,8 +15,9 @@ function updateSavedTabList(savedTabs) {
     const listItem = document.createElement("li");
     const contentDiv = document.createElement("div"); // Container for favicon and text
     const buttonDiv = document.createElement("div");
-    buttonDiv.className = "buttonHolder";
+    listItem.className = "clickable-item";
     contentDiv.className = "contentHolder";
+    buttonDiv.className = "buttonHolder";
 
     // Create an image element for the favicon
     if (tab.favIconUrl) {
@@ -28,6 +29,10 @@ function updateSavedTabList(savedTabs) {
       favicon.style.marginLeft = "8px";
       contentDiv.appendChild(favicon);
     }
+
+    listItem.addEventListener("click", function () {
+      openTab(tab, listItem, savedTabs);
+    });
 
     // Create a span for the text
     const textSpan = document.createElement("span");
@@ -65,13 +70,10 @@ function updateTabsToSaveList(savedTabs) {
       if (!savedTabs[tab.id]) {
         const listItem = document.createElement("li");
         const contentDiv = document.createElement("div");
-        //const buttonDiv = document.createElement("div");
-        //buttonDiv.className = "buttonHolder";
+        const buttonDiv = document.createElement("div");
+        listItem.className = "clickable-item";
         contentDiv.className = "contentHolder";
-
-        listItem.addEventListener("click", function () {
-          saveTab(tab, listItem, saveButton, savedTabs);
-        });
+        buttonDiv.className = "buttonHolder";
 
         // Create an image element for the favicon
         if (tab.favIconUrl) {
@@ -83,21 +85,23 @@ function updateTabsToSaveList(savedTabs) {
           favicon.style.marginLeft = "8px";
           contentDiv.appendChild(favicon);
         }
-
+        listItem.addEventListener("click", function () {
+          saveTab(tab, listItem, savedTabs);
+        });
         // Create a span for the text
         const textSpan = document.createElement("span");
         textSpan.appendChild(document.createTextNode(tab.title));
         contentDiv.appendChild(textSpan);
         listItem.appendChild(contentDiv);
 
-        //const saveButton = document.createElement("button");
-        //saveButton.textContent = "";
-        //saveButton.addEventListener("click", function () {
-        //  saveTab(tab, listItem, saveButton, savedTabs);
-        //});
+        const saveButton = document.createElement("button");
+        saveButton.textContent = "";
+        saveButton.addEventListener("click", function () {
+          saveTab(tab, listItem, saveButton, savedTabs);
+        });
 
-        //buttonDiv.appendChild(saveButton);
-        //listItem.appendChild(buttonDiv);
+        buttonDiv.appendChild(saveButton);
+        listItem.appendChild(buttonDiv);
         tabsToSaveList.appendChild(listItem);
       }
     });
@@ -108,7 +112,7 @@ function isUrlSaved(savedTabs, url) {
   return Object.values(savedTabs).some((tab) => tab.url === url);
 }
 
-function saveTab(tab, listItem, button, savedTabs) {
+function saveTab(tab, listItem, savedTabs) {
   if (isUrlSaved(savedTabs, tab.url)) {
     alert("This URL is already saved.");
     return;
@@ -121,7 +125,7 @@ function saveTab(tab, listItem, button, savedTabs) {
   });
 }
 
-function openTab(tab, listItem, button, savedTabs) {
+function openTab(tab, listItem, savedTabs) {
   chrome.tabs.create({ url: tab.url }, function () {
     delete savedTabs[tab.id];
     chrome.storage.local.set({ savedTabs: savedTabs }, function () {
