@@ -176,4 +176,105 @@ function updateTabLists() {
   });
 }
 
+function saveCurrentTabsAsWorkspace(workspaceName) {
+  chrome.tabs.query({ currentWindow: true }, function (tabs) {
+    let urls = tabs.map((tab) => tab.url);
+    chrome.storage.local.get(["workspaces"], function (result) {
+      let workspaces = result.workspaces || {};
+      workspaces[workspaceName] = urls;
+      chrome.storage.local.set({ workspaces: workspaces }, function () {
+        console.log(`Workspace ${workspaceName} saved.`);
+        // Call this function to initially populate the list and whenever a new workspace is added
+        updateWorkspaceList();
+      });
+    });
+  });
+}
+
+document.getElementById("saveWorkspace").addEventListener("click", function () {
+  let workspaceName = document.getElementById("workspaceName").value;
+  if (workspaceName) {
+    saveCurrentTabsAsWorkspace(workspaceName);
+    showWorkspaceBtn.classList.toggle("showWorkspaceInputClose");
+    newWorkspaceSelector.classList.toggle("workspaceOpen");
+  } else {
+    showWorkspaceBtn.classList.toggle("showWorkspaceInputClose");
+    newWorkspaceSelector.classList.toggle("workspaceOpen");
+  }
+});
+
+function openWorkspace(workspaceName) {
+  chrome.storage.local.get(["workspaces"], function (result) {
+    let workspaces = result.workspaces || {};
+    if (workspaces[workspaceName]) {
+      workspaces[workspaceName].forEach((url) => {
+        chrome.tabs.create({ url: url });
+      });
+    } else {
+      console.log(`Workspace ${workspaceName} not found.`);
+    }
+  });
+}
+
+function updateWorkspaceList() {
+  chrome.storage.local.get(["workspaces"], function (result) {
+    let workspaces = result.workspaces || {};
+    let workspaceList = document.getElementById("workspaceList");
+    workspaceList.innerHTML = "";
+
+    for (const name in workspaces) {
+      let divSpace = document.createElement("div");
+      divSpace.className = "workspacePreset";
+      let openButton = document.createElement("button");
+      openButton.className = "openBtn";
+      openButton.textContent = `${name}`;
+      openButton.addEventListener("click", function () {
+        openWorkspace(name);
+      });
+
+      let deleteButton = document.createElement("button");
+      const deleteImg = document.createElement("img");
+      deleteImg.src = "images/black-x.svg"; // Path to your SVG file
+      deleteImg.alt = "Delete"; // Alt text for accessibility
+      deleteButton.appendChild(deleteImg);
+      deleteButton.className = "deleteBtn";
+      //deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", function () {
+        deleteWorkspace(name);
+      });
+
+      divSpace.appendChild(openButton);
+      divSpace.appendChild(deleteButton);
+      workspaceList.appendChild(divSpace);
+    }
+  });
+}
+
+function deleteWorkspace(workspaceName) {
+  chrome.storage.local.get(["workspaces"], function (result) {
+    let workspaces = result.workspaces || {};
+    if (workspaces[workspaceName]) {
+      delete workspaces[workspaceName];
+      chrome.storage.local.set({ workspaces: workspaces }, function () {
+        console.log(`Workspace ${workspaceName} deleted.`);
+        updateWorkspaceList(); // Refresh the list
+      });
+    }
+  });
+}
+
+let newWorkspaceSelector = document.getElementById("newWorkspace");
+let showWorkspaceBtn = document.getElementById("showWorkspaceInput");
+let newWorkspaceInput = document.getElementById("workspaceName");
+
+showWorkspaceBtn.addEventListener("click", function () {
+  newWorkspaceSelector.classList.toggle("workspaceOpen");
+  showWorkspaceBtn.classList.toggle("showWorkspaceInputClose");
+  newWorkspaceInput.value = "";
+  newWorkspaceInput.focus();
+});
+
+// Call this function to initially populate the list and whenever a new workspace is added
+updateWorkspaceList();
+
 document.addEventListener("DOMContentLoaded", updateTabLists);

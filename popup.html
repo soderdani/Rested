@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
     <img class="logo" src="images/inTab1.png" alt="inTab" />
+
+    <h2 style="margin-top: 0">Workspaces</h2>
+    <div class="workspaceAdder">
+      <div id="workspaceList"></div>
+
+      <div id="newWorkspace">
+        <input type="text" id="workspaceName" placeholder="..." />
+        <button id="saveWorkspace">
+          <span class="material-symbols-outlined"> done </span>
+        </button>
+      </div>
+
+      <button id="showWorkspaceInput">
+        <img src="images/plus_icon.svg" />
+      </button>
+    </div>
 
     <div>
       <div class="restTabsHeading">
