@@ -222,6 +222,14 @@ function updateWorkspaceList() {
     let workspaceList = document.getElementById("workspaceList");
     workspaceList.innerHTML = "";
 
+    if (workspaces.length > 0) {
+      document.getElementById("workspaceEdit").classList.add("showEditButton");
+    } else {
+      document
+        .getElementById("workspaceEdit")
+        .classList.remove("showEditButton");
+    }
+
     for (const name in workspaces) {
       let divSpace = document.createElement("div");
       divSpace.className = "workspacePreset";
@@ -238,6 +246,7 @@ function updateWorkspaceList() {
       deleteImg.alt = "Delete"; // Alt text for accessibility
       deleteButton.appendChild(deleteImg);
       deleteButton.className = "deleteBtn";
+      deleteButton.id = "deleteBtnEdit";
       //deleteButton.textContent = "Delete";
       deleteButton.addEventListener("click", function () {
         deleteWorkspace(name);
@@ -266,6 +275,13 @@ function deleteWorkspace(workspaceName) {
 let newWorkspaceSelector = document.getElementById("newWorkspace");
 let showWorkspaceBtn = document.getElementById("showWorkspaceInput");
 let newWorkspaceInput = document.getElementById("workspaceName");
+let workspaceEditButton = document.getElementById("workspaceEdit");
+
+workspaceEditButton.addEventListener("click", function () {
+  document.querySelectorAll("button.deleteBtn").forEach(function (btn) {
+    btn.classList.toggle("deleteBtnEditing");
+  });
+});
 
 showWorkspaceBtn.addEventListener("click", function () {
   newWorkspaceSelector.classList.toggle("workspaceOpen");
