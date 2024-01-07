@@ -10,6 +10,31 @@ function removeSavedTab(tabId, listItem, savedTabs) {
   });
 }
 
+function openAllSavedTabs(savedTabs) {
+  Object.values(savedTabs).forEach((tab, index, array) => {
+    chrome.tabs.create({ url: tab.url }, function () {
+      delete savedTabs[tab.id];
+      if (index === array.length - 1) {
+        // Check if it's the last tab in the loop
+        chrome.storage.local.set({ savedTabs: savedTabs }, function () {
+          console.log("All tabs opened");
+          updateTabLists(); // Update UI after all tabs are opened and savedTabs is updated
+        });
+      }
+    });
+  });
+}
+
+// Event listener for Open All Saved Tabs button
+const openAllButton = document.getElementById("openAllSavedTabs");
+openAllButton.addEventListener("click", function () {
+  chrome.storage.local.get(["savedTabs"], function (result) {
+    if (result.savedTabs) {
+      openAllSavedTabs(result.savedTabs);
+    }
+  });
+});
+
 // Function to update the list of saved tabs
 function updateSavedTabList(savedTabs) {
   const savedTabList = document.getElementById("savedTabList");
