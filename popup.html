@@ -1,45 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
-    />
-    <link rel="stylesheet" type="text/css" href="style.css" />
-  </head>
-  <body>
-    <img class="logo" src="images/inTab1.png" alt="inTab" />
-    <div class="workspaceHeading">
-      <h2 style="margin-top: 0">Workspaces</h2>
-      <button id="workspaceEdit">Edit</button>
-    </div>
 
-    <div class="workspaceAdder">
-      <div id="workspaceList"></div>
+<head>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
 
-      <div id="newWorkspace">
-        <input type="text" id="workspaceName" placeholder="" />
-        <button id="saveWorkspace">
-          <span class="material-symbols-outlined"> done </span>
-        </button>
-      </div>
+<body>
+  <img class="logo" src="images/rested1.png" alt="Rested" />
+  <div class="workspaceHeading">
+    <h2 style="margin-top: 0">Workspaces</h2>
+    <button id="workspaceEdit">Edit</button>
+  </div>
 
-      <button id="showWorkspaceInput">
-        <img src="images/plus_icon.svg" />
+  <div class="workspaceAdder">
+    <div id="workspaceList"></div>
+
+    <div id="newWorkspace">
+      <input type="text" id="workspaceName" placeholder="" />
+      <button id="saveWorkspace">
+        <span class="material-symbols-outlined"> done </span>
       </button>
     </div>
 
-    <div>
-      <div class="restTabsHeading">
-        <h2>Resting Tabs</h2>
-        <button id="openAllSavedTabs">Open All</button>
-      </div>
-      <ul id="savedTabList"></ul>
+    <button id="showWorkspaceInput">
+      <img src="images/plus_icon.svg" />
+    </button>
+  </div>
+
+  <div>
+    <div class="restTabsHeading">
+      <h2>Resting Tabs</h2>
+      <button id="openAllSavedTabs">Open All</button>
     </div>
-    <div>
-      <h2>Your Tabs</h2>
-      <ul id="tabsToSaveList"></ul>
-    </div>
-    <script src="popup.js"></script>
-  </body>
+    <ul id="savedTabList"></ul>
+  </div>
+  <div>
+    <h2>Your Tabs</h2>
+    <ul id="tabsToSaveList"></ul>
+  </div>
+  <script src="popup.js"></script>
+</body>
+
 </html>

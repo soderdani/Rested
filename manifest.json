@@ -10,14 +10,14 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "images/intab16-2.png",
-      "48": "images/intab48-2.png",
-      "128": "images/intab128-2.png"
+      "16": "images/rested16.png",
+      "48": "images/rested48.png",
+      "128": "images/rested128.png"
     }
   },
   "icons": {
-    "16": "images/intab16-2.png",
-    "48": "images/intab48-2.png",
-    "128": "images/intab128-2.png"
+    "16": "images/rested16.png",
+    "48": "images/rested48.png",
+    "128": "images/rested128.png"
   }
 }
