@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "inTab",
+  "name": "Rested",
   "version": "1.0",
   "description": "Save and close tabs to reduce memory usage.",
   "permissions": ["tabs", "storage"],
