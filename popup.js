@@ -64,10 +64,10 @@ function updateSavedTabList(savedTabs) {
     });
 
     const deleteButton = document.createElement("button");
-    deleteButton.className = "delete-button"; // Add this line to set the class
+    deleteButton.className = "delete-button";
     const img = document.createElement("img");
-    img.src = "images/black-x.svg"; // Path to your SVG file
-    img.alt = "Delete"; // Alt text for accessibility
+    img.src = "images/black-x.svg"; 
+    img.alt = "Delete";
     deleteButton.appendChild(img);
     deleteButton.addEventListener("click", function (event) {
       event.stopPropagation();
@@ -84,7 +84,7 @@ function updateSavedTabList(savedTabs) {
     listItem.appendChild(contentDiv);
     listItem.appendChild(buttonDiv);
     savedTabList.appendChild(listItem);
-    //setTimeout(() => listItem.classList.add("fade-in-move-up"), 0.5);
+
   }
 }
 
@@ -184,7 +184,8 @@ function saveCurrentTabsAsWorkspace(workspaceName) {
       workspaces[workspaceName] = urls;
       chrome.storage.local.set({ workspaces: workspaces }, function () {
         console.log(`Workspace ${workspaceName} saved.`);
-        // Call this function to initially populate the list and whenever a new workspace is added
+
+        // Calling this function to initially populate the list and whenever a new workspace is added
         updateWorkspaceList();
       });
     });
@@ -242,12 +243,12 @@ function updateWorkspaceList() {
 
       let deleteButton = document.createElement("button");
       const deleteImg = document.createElement("img");
-      deleteImg.src = "images/black-x.svg"; // Path to your SVG file
-      deleteImg.alt = "Delete"; // Alt text for accessibility
+      deleteImg.src = "images/black-x.svg";
+      deleteImg.alt = "Delete";
       deleteButton.appendChild(deleteImg);
       deleteButton.className = "deleteBtn";
       deleteButton.id = "deleteBtnEdit";
-      //deleteButton.textContent = "Delete";
+
       deleteButton.addEventListener("click", function () {
         deleteWorkspace(name);
       });
