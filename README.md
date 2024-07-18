@@ -1,6 +1,6 @@
-# inTab - The Tab Manager
+# Rested. - The Tab Manager
 ## Description
-Chrome Tab Manager is an extension for Google Chrome that enhances productivity and organization for users with heavy tab usage. It allows users to save frequently used tabs as workspaces, automatically detects inactive tabs, and offers the functionality to save them for later use.
+Rested is an extension for Google Chrome that enhances productivity and organization for users with heavy tab usage. It allows users to save frequently used tabs as workspaces, automatically detects inactive tabs, and offers the functionality to save them for later use.
 
 ## Features
 * **Save Tabs as Workspaces:** Users can save their current set of tabs as a named workspace, which can be reopened anytime with a single click.
