@@ -12,7 +12,7 @@ Rested is an extension for Google Chrome that enhances productivity and organiza
 * **Workspace Management:** Each workspace can be opened or deleted, allowing users to manage their saved tabs efficiently.
 
 ## Installation
-To install the Chrome Tab Manager extension:
+To install the Rested chrome extension:
 
 1. Clone the repository or download the source code from GitHub.
    
@@ -32,7 +32,7 @@ To install the Chrome Tab Manager extension:
 * **Handling Inactive Tabs:** The extension will periodically check for inactive tabs and prompt you to save them.
 
 ## Contributing
-Contributions to the Chrome Tab Manager are welcome! If you have suggestions for improvements or encounter any issues, please feel free to submit an issue or pull request on GitHub.
+Contributions to Rested are welcome! If you have suggestions for improvements or encounter any issues, please feel free to submit an issue or pull request on GitHub.
 
 ## License
 This project is licensed under the MIT License.
